@@ -6,37 +6,48 @@ printf "ERROR! Error en la llamada a la funcion. \nEl metodo correcto es: "
 echo    "mifind 'ruta' <opciones>"
 exit -1
 }
-COUNTER=1
+
+function busqueda (){
+    if [ ! -z $TIPO ]; then
+        printf "tipo $TIPO\n"
+    fi
+    if [ ! -z $MAXDEPTH ]; then
+        printf "Profundidad maxima de $MAXDEPTH\n"
+    fi
+    if [ ! -z $RUTA ]; then
+        printf "Ruta a seguir $RUTA\n"
+    fi
+}
+
+CHECKER=1
 for i in $@ ; do
 case $i in
     "-maxdepth"|"-type")
         OPCION=$i
-        COUNTER=1
+        CHECKER=1
         ;;
-
     *)
-        if [ ! -z $COUNTER ]; then
+        if [ $CHECKER -ne 0 ]; then
             case $OPCION in 
                 "-maxdepth")
-                    echo "profundidad maxima $i"
+                    MAXDEPTH=$i
                     ;;
-
                 "-type")
-                    echo "tipo $i"
+                    TIPO=$i
                     ;;
-
                 "")
                     if [ $i != $1 ] ; then
                         error
                     else
-                        echo "ruta: $i"
+                        RUTA=$i
                     fi
                     ;;
             esac
-            COUNTER=($COUNTER - 1)
+            CHECKER=$((CHECKER - 1))
         else
             error
         fi
 esac
 done
+busqueda
 exit 0

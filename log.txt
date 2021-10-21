@@ -1,0 +1,19 @@
+En el cuerpon de la funcion empezamos un case selector en el cual sacamos de la entrada de argumentos a traves de un ciclo for.
+
+Si el case selector detecta una opcion de las registradas se actualiza su variable con un valor.
+
+creada una funcion error la cual es llamada en el control de errores y termina la ejecucion si no pasa la deteccion.
+
+El error en la linea de entrada se controla con un counter, el cual decrementa si no encuentra una de las variables registradas cada 2 iteraciones del ciclo for.
+Esto proboca una llamada a la funcion error.
+Ademas se controla asi una incorrecta asignacion de la variable ruta a un elemento indeseado.
+
+Despues del case selector se llama a la funcion busqueda.
+
+La funcion busqueda tiene una detecion para cada una de las variables definidas. Si estas estan vacias no se tendran en cuenta a la hora de la ejecucion recursiva de la busqueda.
+En este momento se establecera la ruta tambien como la pasada por argumento o la actual.
+
+#TODO
+Encontrar la manera de hacer la redundancia realmente funciionar.
+Diferenciar las salidas de texto en funcion del tipo.
+Posible ampliacion a mayor funcionalidad.
