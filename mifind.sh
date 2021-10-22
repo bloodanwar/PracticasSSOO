@@ -1,32 +1,29 @@
 #!/bin/bash
 
-function error (){
-printf "!!!!!!!!!!\n"
-printf "ERROR! Error en la llamada a la funcion. \nEl metodo correcto es: "
-echo    "mifind 'ruta' <opciones>"
-exit -1
-}
-
 function busqueda (){
     if [ ! -z $MAXDEPTH ]; then
         DEPTH=$MAXDEPTH
     fi
     for rute in $1/* ; do
-        case $TIPO in 
-            "d")
-                if [ -d "$rute" ]; then
-                    echo $rute
-                fi
-                ;;
-            "f")
-                if [ -f "$rute" ]; then
-                    echo $rute
-                fi
-                ;;
-            *)
-                    echo $rute
-            ;;
-        esac
+        #comprobacion del -type
+        if [ "$TIPO" == "d" ]
+        then
+            if [ -d "$rute" ]; then
+                echo $rute
+            fi
+        elif [ "$TIPO" == "f" ]
+        then
+            if [ -f "$rute" ]; then
+                echo $rute
+            fi
+        elif [ -z $TIPO ]
+        then
+            echo $rute
+        else 
+            printf "<<<ERROR>>>\nEl '-type' seleccionado no existe. Solo se permiten 'd' o 'f'\n \n"
+            exit -1
+        fi
+
         #recursibidad
         if [ -d "$rute" ] ; then 
             busqueda "$rute"
@@ -52,7 +49,8 @@ case $i in
                     ;;
                 "")
                     if [ $i != $1 ] ; then
-                        error
+                        printf "<<<ERROR>>>\nLa llamada a la funcion no es correcta.\nEl metodo correcto de uso es: mifind <ruta><opciones> \n \n"
+                        exit -1
                     else
                         RUTA=$i
                     fi
@@ -64,11 +62,14 @@ case $i in
         fi
 esac
 done
+
+
 if [ -z $RUTA ]; then
     RUTA="."
 fi
 if [ ! -d "$RUTA" ]; then
-    error
+    printf "\n<<<ERROR>>>\nLa ruta especificada para la busqueda no es un directorio.\nEl metodo correcto de uso es: mifind <ruta><opciones> \n \n"
+    exit -1
 fi
 busqueda "$RUTA"
 exit 0
