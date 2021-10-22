@@ -54,7 +54,8 @@ case $i in
             esac
             BOOL=$((BOOL - 1))
         else
-            error #cambiar
+            printf "<<<ERROR>>>\nLa llamada a la funcion no es correcta.\nEl metodo correcto de uso es: mifind <ruta><opciones> \n \n"
+            exit -1
         fi
 esac
 done
