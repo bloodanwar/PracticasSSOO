@@ -8,15 +8,24 @@ exit -1
 }
 
 function busqueda (){
-    if [ ! -z $TIPO ]; then
-        printf "tipo $TIPO\n"
-    fi
     if [ ! -z $MAXDEPTH ]; then
-        printf "Profundidad maxima de $MAXDEPTH\n"
+        DEPTH=$MAXDEPTH
     fi
     if [ ! -z $RUTA ]; then
-        printf "Ruta a seguir $RUTA\n"
+        RUTA=.
     fi
+
+    case $TIPO in 
+        "d")
+            printf "Busca directorios\n"
+            ;;
+        "f")
+            printf "Busca archivos \n"
+            ;;
+        *)
+            printf "Busca todo \n"
+            ;;
+    esac
 }
 
 CHECKER=1

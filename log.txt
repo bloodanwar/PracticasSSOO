@@ -13,7 +13,11 @@ Despues del case selector se llama a la funcion busqueda.
 La funcion busqueda tiene una detecion para cada una de las variables definidas. Si estas estan vacias no se tendran en cuenta a la hora de la ejecucion recursiva de la busqueda.
 En este momento se establecera la ruta tambien como la pasada por argumento o la actual.
 
+Un case selector determina el tipo de archibo que estamos buscando.
+
+
+
 #TODO
 Encontrar la manera de hacer la redundancia realmente funciionar.
-Diferenciar las salidas de texto en funcion del tipo.
 Posible ampliacion a mayor funcionalidad.
+errorchecking del -type case default, no se difetencia si no se pone type a si se pone cualquier cosa aleatoria.
