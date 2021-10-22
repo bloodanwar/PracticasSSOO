@@ -1,9 +1,6 @@
 #!/bin/bash
-
 function busqueda (){
     for rute in $1/* ; do
-        
-
         #comprobacion del -type
         if [ "$TIPO" == "d" ]
         then
@@ -22,22 +19,14 @@ function busqueda (){
             printf "<<<ERROR>>>\nEl '-type' seleccionado no existe. Solo se permiten 'd' o 'f'\n \n"
             exit -1
         fi
-        
-        
         #recursibidad
-        if [ -d "$rute" ] ; then 
+        if [ -d "$rute" ] && [ "$DEPTH" != "$MAXDEPTH" ] ; then 
             DEPTH=$((DEPTH + 1))
             busqueda "$rute"
-            #control de la profundidad
-            if  [ "$DEPTH" == "$MAXDEPTH" ]
-            then
-                printf "\nProfundidad maxima alcanzada\n\n"
-                break
-            fi
+            DEPTH=$((DEPTH - 1))
         fi 
     done
 }
-
 BOOL=1
 for i in $@ ; do
 case $i in
@@ -65,12 +54,10 @@ case $i in
             esac
             BOOL=$((BOOL - 1))
         else
-            error
+            error #cambiar
         fi
 esac
 done
-
-
 if [ -z $RUTA ]; then
     RUTA="."
 fi
