@@ -6,20 +6,23 @@ function busqueda (){
         then
             if [ -d "$rute" ]; then
                 echo $rute
+                ENCONTRADOS=$((ENCONTRADOS + 1))
             fi
         elif [ "$TIPO" == "f" ]
         then
             if [ -f "$rute" ]; then
                 echo $rute
+                ENCONTRADOS=$((ENCONTRADOS + 1))
             fi
         elif [ -z $TIPO ]
         then
             echo $rute
+            ENCONTRADOS=$((ENCONTRADOS + 1))
         else 
             printf "<<<ERROR>>>\nEl '-type' seleccionado no existe. Solo se permiten 'd' o 'f'\n \n"
             exit -1
         fi
-        #recursibidad
+        #recursibidad y comprobacion del maxdepth
         if [ -d "$rute" ] && [ "$DEPTH" != "$MAXDEPTH" ] ; then 
             DEPTH=$((DEPTH + 1))
             busqueda "$rute"
@@ -27,7 +30,10 @@ function busqueda (){
         fi 
     done
 }
+#inicializacion de las variables.
 BOOL=1
+DEPTH=0
+ENCONTRADOS=0
 for i in $@ ; do
 case $i in
     "-maxdepth"|"-type")
@@ -66,6 +72,6 @@ if [ ! -d "$RUTA" ]; then
     printf "\n<<<ERROR>>>\nLa ruta especificada para la busqueda no es un directorio.\nEl metodo correcto de uso es: mifind <ruta><opciones> \n \n"
     exit -1
 fi
-DEPTH=0
 busqueda "$RUTA"
+printf "\nSe han encontrado $ENCONTRADOS elementos.\n\n"
 exit 0
