@@ -11,21 +11,27 @@ function busqueda (){
     if [ ! -z $MAXDEPTH ]; then
         DEPTH=$MAXDEPTH
     fi
-    if [ ! -z $RUTA ]; then
-        RUTA=.
-    fi
-
-    case $TIPO in 
-        "d")
-            printf "Busca directorios\n"
+    for rute in $1/* ; do
+        case $TIPO in 
+            "d")
+                if [ -d "$rute" ]; then
+                    echo $rute
+                fi
+                ;;
+            "f")
+                if [ -f "$rute" ]; then
+                    echo $rute
+                fi
+                ;;
+            *)
+                    echo $rute
             ;;
-        "f")
-            printf "Busca archivos \n"
-            ;;
-        *)
-            printf "Busca todo \n"
-            ;;
-    esac
+        esac
+        #recursibidad
+        if [ -d "$rute" ] ; then 
+            busqueda "$rute"
+        fi 
+    done
 }
 
 CHECKER=1
@@ -58,5 +64,11 @@ case $i in
         fi
 esac
 done
-busqueda
+if [ -z $RUTA ]; then
+    RUTA="."
+fi
+if [ ! -d "$RUTA" ]; then
+    error
+fi
+busqueda "$RUTA"
 exit 0
