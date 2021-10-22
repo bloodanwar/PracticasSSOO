@@ -1,10 +1,9 @@
 #!/bin/bash
 
 function busqueda (){
-    if [ ! -z $MAXDEPTH ]; then
-        DEPTH=$MAXDEPTH
-    fi
     for rute in $1/* ; do
+        
+
         #comprobacion del -type
         if [ "$TIPO" == "d" ]
         then
@@ -23,23 +22,31 @@ function busqueda (){
             printf "<<<ERROR>>>\nEl '-type' seleccionado no existe. Solo se permiten 'd' o 'f'\n \n"
             exit -1
         fi
-
+        
+        
         #recursibidad
         if [ -d "$rute" ] ; then 
+            DEPTH=$((DEPTH + 1))
             busqueda "$rute"
+            #control de la profundidad
+            if  [ "$DEPTH" == "$MAXDEPTH" ]
+            then
+                printf "\nProfundidad maxima alcanzada\n\n"
+                break
+            fi
         fi 
     done
 }
 
-CHECKER=1
+BOOL=1
 for i in $@ ; do
 case $i in
     "-maxdepth"|"-type")
         OPCION=$i
-        CHECKER=1
+        BOOL=1
         ;;
     *)
-        if [ $CHECKER -ne 0 ]; then
+        if [ $BOOL -ne 0 ]; then
             case $OPCION in 
                 "-maxdepth")
                     MAXDEPTH=$i
@@ -56,7 +63,7 @@ case $i in
                     fi
                     ;;
             esac
-            CHECKER=$((CHECKER - 1))
+            BOOL=$((BOOL - 1))
         else
             error
         fi
@@ -71,5 +78,6 @@ if [ ! -d "$RUTA" ]; then
     printf "\n<<<ERROR>>>\nLa ruta especificada para la busqueda no es un directorio.\nEl metodo correcto de uso es: mifind <ruta><opciones> \n \n"
     exit -1
 fi
+DEPTH=0
 busqueda "$RUTA"
 exit 0

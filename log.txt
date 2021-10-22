@@ -20,5 +20,5 @@ Accedemos con un for a los distintos nodos hijos del actual. Comprobamos su tipo
 
 
 #TODO
-profundidad.
+profundidad correctamente
 Posible ampliacion a mayor funcionalidad.
